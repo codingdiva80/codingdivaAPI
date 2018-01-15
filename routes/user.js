@@ -1,4 +1,5 @@
-var express = require('express');
+var express    = require('express');
+const passport       = require("passport");
 
 var router = express.Router();
 var User = require('../models/user');
@@ -27,25 +28,39 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+router.get("/user/show", (req, res)=>{
+    let users = User.find();
+    let anyUser = {};
+    Object.keys(users).map(key => {
+        console.log(key);
+    });
+    res.send("OK");
+});
+
+// Handle Sign Up Logic
+router.post("/user/register", function(req, res){
+    console.log("Yay");
+    var newUser = new User({
+            email: req.body.email,
+        });
+
+    User.register(newUser, req.body.password,function(err, newUser){
+        if(err){
+            res.send({ msg: {
+                error: "Could not register user"
+            }});
+        }
+        passport.authenticate("local")(req, res, function(){
+            
+        });
+    });
+});
+
 router.get('/user/:id', function(req, res) {
     User.findById(req.params.id, function(err, foundUser) {
         if (err) {
-            req.flash('error', 'Something went wrong!');
-            res.redirect('/');
-        }
-        Cuisine.find()
-            .where('author.id')
-            .equals(foundUser._id)
-            .exec(function(err, cuisines) {
-                if (err) {
-                    req.flash('error', 'Something went wrong!');
-                    res.redirect('/');
-                }
-                res.render('user/show', {
-                    user: foundUser,
-                    cuisines: cuisines,
-                });
-            });
+            console.log(err);
+        };
     });
 });
 
