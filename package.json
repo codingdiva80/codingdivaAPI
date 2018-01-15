@@ -18,8 +18,11 @@
   "homepage": "https://github.com/codingdiva80/codingdivaAPI#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "cloudinary": "^1.9.1",
+    "dotenv": "^4.0.0",
     "express": "^4.16.2",
     "mongoose": "^4.13.9",
+    "multer": "^1.3.0",
     "passport-local-mongoose": "^4.4.0",
     "sequelize": "^4.31.2"
   }
