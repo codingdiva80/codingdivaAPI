@@ -1,6 +1,7 @@
 // Dependencies
 const express = require('express');
 const bodyParser = require('body-parser');
+const dotenv = require('dotenv').config();
 
 // Setting up an Express app
 const app = express();
@@ -17,7 +18,8 @@ app.get('/', (req, res) => res.send('Hello!'));
     
 //   });
 
-
+/* get routes */
+let userRoutes = require("./routes/user");
 
   app.listen(port, function() {
     console.log("App listening on PORT " + port);
