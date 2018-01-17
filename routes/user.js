@@ -1,7 +1,6 @@
-var express    = require('express');
+var express          = require('express');
 const passport       = require("passport");
-
-var router = express.Router();
+var router           = express.Router();
 var User = require('../models/user');
 //var geocoder = require("geocoder");
 var multer = require('multer');
@@ -39,16 +38,25 @@ router.get("/user/show", (req, res)=>{
 
 // Handle Sign Up Logic
 router.post("/user/register", function(req, res){
-    console.log("Yay");
+    let bodyString = '';
+    for(let key in req.body){
+        bodyString = key;
+    }
+    let body = JSON.parse(bodyString);
     var newUser = new User({
-            email: req.body.email,
+            email: body.email,
+            username: body.username
         });
 
-    User.register(newUser, req.body.password,function(err, newUser){
+    User.register(newUser, body.password,function(err, newUser){
         if(err){
+            console.log(err);
             res.send({ msg: {
                 error: "Could not register user"
             }});
+        }
+        else{
+            console.log("SUCCESS");
         }
         passport.authenticate("local")(req, res, function(){
             
