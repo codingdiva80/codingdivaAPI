@@ -6,18 +6,27 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
-var MongoClient = require('mongodb').MongoClient
-  , assert = require('assert');
+// var MongoClient = require('mongodb').MongoClient
+//   , assert = require('assert');
 
 // Connection URL
-var url = 'mongodb://localhost:27017/codingdivadb';
+var url = 'mongodb://localhost/codingdivadb';
 // Use connect method to connect to the Server
-MongoClient.connect(url, function(err, db) {
-  assert.equal(null, err);
-  console.log("Connected correctly to server");
+// MongoClient.connect(url, function(err, db) {
+//   assert.equal(null, err);
+//   console.log("Connected correctly to server");
 
-  db.close();
-});
+//   db.close();
+// });
+try{
+  mongoose.connect(url);
+  console.log("Connected to mongodb");
+}
+catch(e){
+  console.log("Could not connect to db "+e);
+  process.exit(1);
+}
+
 
 // Setting up an Express app
 const app = express();
@@ -29,8 +38,7 @@ var corsOptions = {
   optionsSuccessStatus: 200 
 }
 app.options('*', cors());  // enable pre-flight
-app.use(bodyParser.urlencoded({extended: true}));
-//app.use(bodyParser.json());
+app.use(bodyParser.json());
 
 
 app.get('/', (req, res) => res.send('Hello!'));

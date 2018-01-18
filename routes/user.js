@@ -38,16 +38,13 @@ router.get("/user/show", (req, res)=>{
 
 // Handle Sign Up Logic
 router.post("/user/register", function(req, res){
-    let bodyString = '';
-    for(let key in req.body){
-        bodyString = key;
-    }
-    let body = JSON.parse(bodyString);
+    
+    let body = req.body;
     var newUser = new User({
             email: body.email,
             username: body.username
         });
-
+    
     User.register(newUser, body.password,function(err, newUser){
         if(err){
             console.log(err);
